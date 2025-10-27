@@ -1,0 +1,94 @@
+zabbix_export:
+  version: '7.4'
+  template_groups:
+    - uuid: 7df96b18c230490a9a0a9e2307226338
+      name: Templates
+  templates:
+    - uuid: 7f5ba2d5189e44e8ab51108207389382
+      template: 'FortiNet RSS - new versions'
+      name: 'FortiNet RSS - new versions'
+      description: 'From https://support.fortinet.com/rss/firmware.xml'
+      groups:
+        - name: Templates
+      items:
+        - uuid: ab66c7ce45e9447fa03d9df5dbcf0d85
+          name: 'FortiAnalyzer version'
+          type: HTTP_AGENT
+          key: rss.fortinet.fortianalyzer.update
+          delay: 1d;wd1
+          history: 7d
+          value_type: TEXT
+          preprocessing:
+            - type: XMLPATH
+              parameters:
+                - '(//channel/item[contains(title,''FortiAnalyzer'')])[1]/title/text()'
+          url: 'https://support.fortinet.com/rss/firmware.xml'
+          tags:
+            - tag: notify
+              value: dashboard_diit
+          triggers:
+            - uuid: 8cad36d5922249e29b680bafa633af07
+              expression: 'change(/FortiNet RSS - new versions/rss.fortinet.fortianalyzer.update)=1'
+              name: '{ITEM.LASTVALUE1} update available'
+              priority: INFO
+              type: MULTIPLE
+              manual_close: 'YES'
+        - uuid: daa4751a585740a29a34d14620f49b93
+          name: 'FortiAuthenticator version'
+          type: HTTP_AGENT
+          key: rss.fortinet.fortiauthenticator.update
+          delay: 1d;wd1
+          history: 7d
+          value_type: TEXT
+          preprocessing:
+            - type: XMLPATH
+              parameters:
+                - '(//channel/item[contains(title,''FortiAuthenticator '')])[1]/title/text()'
+          url: 'https://support.fortinet.com/rss/firmware.xml'
+          tags:
+            - tag: notify
+              value: dashboard_diit
+          triggers:
+            - uuid: 2d2ac3e8cdd949459b1be52bcc712350
+              expression: 'change(/FortiNet RSS - new versions/rss.fortinet.fortiauthenticator.update)=1'
+              name: '{ITEM.LASTVALUE1}  update available'
+              priority: INFO
+              type: MULTIPLE
+              manual_close: 'YES'
+        - uuid: d32f59693e8e4638be0ee881c72dce54
+          name: 'FortiAuthenticator version - TEST'
+          type: HTTP_AGENT
+          key: rss.fortinet.fortiauthenticator.update2
+          delay: 1d;wd1
+          history: 7d
+          value_type: TEXT
+          preprocessing:
+            - type: XMLPATH
+              parameters:
+                - '(//channel/item[contains(title,''FortiAuthenticator '')])[1]/title/text()'
+          url: 'https://support.fortinet.com/rss/firmware.xml'
+        - uuid: 34bf1c39d4674cb58bffc4ac93989453
+          name: 'FortiMail version'
+          type: HTTP_AGENT
+          key: rss.fortinet.fortimail.update
+          delay: 1d;wd1
+          history: 7d
+          value_type: TEXT
+          preprocessing:
+            - type: XMLPATH
+              parameters:
+                - '//channel/item[contains(title,''FortiMail'')]/title/text()'
+          url: 'https://support.fortinet.com/rss/firmware.xml'
+          tags:
+            - tag: notify
+              value: dashboard_diit
+          triggers:
+            - uuid: 7949f443b178496fa38eda2886ab0354
+              expression: 'change(/FortiNet RSS - new versions/rss.fortinet.fortimail.update)=1'
+              name: '{ITEM.LASTVALUE1} update available'
+              priority: INFO
+              type: MULTIPLE
+              manual_close: 'YES'
+      tags:
+        - tag: rss
+          value: fortinet
