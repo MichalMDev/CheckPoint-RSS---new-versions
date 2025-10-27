@@ -1,1 +1,1 @@
-# Check new versions of softwrae via RSS Feeds.
+# Check new versions of Software via RSS Feeds using Zabbix Templates.
