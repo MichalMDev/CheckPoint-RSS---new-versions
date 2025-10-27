@@ -1,1 +1,1 @@
-# CheckPoint-RSS-new-versions
+# Check new versions of softwrae via RSS Feeds.
